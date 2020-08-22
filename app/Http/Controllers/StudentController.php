@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Student_Info;
+
+
 
 class StudentController extends Controller
 {
@@ -13,7 +16,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students=Student_Info::all();
+
+        return view('backend.students.index',compact('students'));
     }
 
     /**
@@ -23,7 +28,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.students.create');
+        
     }
 
     /**
@@ -34,7 +40,34 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           
+            'name' =>'required',
+            'photo' =>'required',
+            'fathername' =>'required',
+            'nrcno' =>'required',
+            'state' =>'required',
+            'city' =>'required',
+            'phoneno' =>'required',    
+
+        ]);
+        //If include file,upload
+        $imageName=time().'.'.$request->photo->extension();
+        $request->photo->move(public_path('backend/studentimg'),$imageName);
+        $myfile='backend/studentimg/'.$imageName;
+        //Data insert
+        $student=new Student_Info;
+        
+        $student->name=$request->name;
+        $student->photo=$myfile;
+        $student->fathername=$request->fathername;
+        $student->nrcno=$request->nrcno;
+        $student->state=$request->state;
+        $student->city=$request->city;
+        $student->phoneno=$request->phoneno;
+        $student->save();
+        //Redirect
+        return redirect()->route('students.index');
     }
 
     /**
@@ -45,7 +78,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student=Student_Info::find($id);
+
+        return view('backend.students.show',compact('student'));
     }
 
     /**

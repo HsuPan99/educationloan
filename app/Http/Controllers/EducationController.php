@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Education_Detail;
+// use App\Student_Info;
+
+
 
 class EducationController extends Controller
 {
@@ -13,7 +17,9 @@ class EducationController extends Controller
      */
     public function index()
     {
-        //
+        $educations=Education_Detail::all();
+
+        return view('backend.educations.index',compact('educations'));
     }
 
     /**
@@ -23,7 +29,8 @@ class EducationController extends Controller
      */
     public function create()
     {
-        //
+        // return view('backend.educations.create');
+        
     }
 
     /**
@@ -34,7 +41,27 @@ class EducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+           
+        //     'rollno' =>'required',
+        //     'university' =>'required',
+        //     'year' =>'required',
+        //     'semester' =>'required',
+             
+
+        // ]);
+        
+        // //Data insert
+        // $education=new Education_Detail;
+        
+        // $education->rollno=$request->rollno;
+        // $education->university=$request->university;
+        // $education->year=$request->year;
+        // $education->semester=$request->semester;
+        
+        // $education->save();
+        // //Redirect
+        // return redirect()->route('educations.index');
     }
 
     /**
@@ -45,7 +72,9 @@ class EducationController extends Controller
      */
     public function show($id)
     {
-        //
+         $education=Education_Detail::find($id);
+
+        return view('backend.educations.show',compact('education'));
     }
 
     /**
